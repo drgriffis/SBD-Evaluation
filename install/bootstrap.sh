@@ -2,14 +2,17 @@
 
 BASHRC=/home/vagrant/.bashrc
 INSTALL=/vagrant/install
+DATA=/vagrant/data
 
 ## Set up directories as necessary
 mkdir -p $INSTALL/ctakes
+mkdir -p $DATA/i2b2/plaintext
 
 ## Install necessary *nix packages
 apt-get update
 apt-get install -y unzip
 apt-get install -y openjdk-7-jre-headless
+apt-get install -y make
 
 ## Install ctakes
 CTAKESNAME="apache-ctakes-3.2.2"
