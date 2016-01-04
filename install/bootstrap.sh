@@ -7,6 +7,7 @@ DATA=/vagrant/data
 ## Set up directories as necessary
 mkdir -p $INSTALL/ctakes
 mkdir -p $DATA/i2b2/plaintext
+mkdir -p $DATA/genia
 
 ## Install necessary *nix packages
 apt-get update
@@ -37,3 +38,12 @@ if [ ! -d "resources" ]; then
 fi
 cp -R resources/* $CTAKESNAME/resources/
 echo "export CTAKES_HOME=`pwd`/$CTAKESNAME" >> $BASHRC
+
+## Download GENIA
+GENIANAME="GENIA_treebank_v1"
+GENIAURL="http://www.nactem.ac.uk/GENIA/current/GENIA-corpus/Treebank/$GENIANAME.tar.gz"
+
+if [ ! -e "$DATA/genia/$GENIANAME.tar.gz" ]; then
+    cd $DATA/genia
+    wget $GENIAURL
+fi

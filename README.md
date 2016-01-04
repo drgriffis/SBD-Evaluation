@@ -12,3 +12,11 @@ Virtual environment for replicating experiments from Griffis et al., "A Quantita
 
         cd data/
         make i2b2
+
+### GENIA
+
+1. The GENIA data files are automatically sourced, in XML format, from [the Treebank portion of the GENIA project](http://www.geniaproject.org/genia-corpus/treebank).
+2. Execute the following commands to unpack the data:
+
+        cd data/
+        make genia
