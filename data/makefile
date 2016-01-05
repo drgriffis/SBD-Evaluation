@@ -40,7 +40,7 @@ i2b2:
 		rm -rf tmp && \
 		echo "Calculating i2b2 sentence bounds..." && \
 		javac -d ${PREPROCESSING}/i2b2/bin -cp "${CODE}/jars/commons-io-2.4.jar:${CODE}/jars/opencsv-2.3.jar" ${PREPROCESSING}/i2b2/*.java && \
-		java -cp "${PREPROCESSING}/i2b2/bin:${CODE}/jars/commons-io-2.4.jar:${CODE}/jars/opencsv-2.3.jar" i2b2.ReferenceGenerator ${I2B2}/plaintext ${I2B2}/bounds && \
+		java -cp "${PREPROCESSING}/i2b2/bin:${CODE}/jars/commons-io-2.4.jar:${CODE}/jars/opencsv-2.3.jar" i2b2.ReferenceGenerator ${I2B2}/plaintext/ ${I2B2}/bounds/ && \
 		echo "i2b2 data unpacked to:" && \
 		echo "\tPlaintext files: ${I2B2}/plaintext" && \
 		echo "\tSentence boundaries: ${I2B2}/bounds"; \
