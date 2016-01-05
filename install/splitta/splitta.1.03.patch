@@ -1,0 +1,78 @@
+--- splitta.1.03/sbd.py	2016-01-05 21:12:17.212472600 +0000
++++ splitta.1.03.modified/sbd.py	2016-01-05 20:44:30.942144200 +0000
+@@ -1,4 +1,5 @@
+ import re, sys, os, math, tempfile, collections
++import codecs
+ import sbd_util, word_tokenize
+ 
+ """
+@@ -11,8 +12,8 @@
+ """
+ 
+ ## globals
+-SVM_LEARN = '/u/dgillick/tools/svm_light/svm_learn'
+-SVM_CLASSIFY = '/u/dgillick/tools/svm_light/svm_classify'
++SVM_LEARN = '/vagrant/install/splitta/svm_light/svm_learn'
++SVM_CLASSIFY = '/vagrant/install/splitta/svm_light/svm_classify'
+ 
+ def unannotate(t):
+     """
+@@ -105,7 +106,8 @@
+ 
+     for file in files:
+         sys.stderr.write('reading [%s]\n' %file)
+-        fh = open(file)
++        #fh = open(file)
++        fh = codecs.open(file,'r','utf-8')
+         for line in fh:
+ 
+             ## deal with blank lines
+@@ -474,10 +476,11 @@
+             frag = frag.next
+         if verbose: sys.stderr.write('done!\n')
+ 
+-    def segment(self, use_preds=False, tokenize=False, output=None, list_only=False):
++    def segment(self, use_preds=False, tokenize=False, output=None, bounds=None, list_only=False):
+         """
+         output all the text, split according to predictions or labels
+         """
++        i=0
+         sents = []
+         thresh = 0.5
+         sent = []
+@@ -495,6 +498,9 @@
+                 elif not list_only: sys.stdout.write(sent_text + spacer)
+                 sents.append(sent_text)
+                 sent = []
++                if len(sent_text.strip()) > 0:
++                    if bounds: bounds.write(str.format("{0},{1}\n",i,i+len(sent_text)))
++                    i+=len(sent_text)+1
+             frag = frag.next
+         return sents
+ 
+@@ -609,6 +615,8 @@
+                       help='train a new model using this labeled data file')
+     parser.add_option('-c', '--svm', dest='svm', default=False,
+                       action='store_true', help='use SVM instead of Naive Bayes for training')
++    parser.add_option('-b', '--bounds', dest='bounds', type='str', default=None,
++                      help='write sentence bounds to this file')
+     (options, args) = parser.parse_args()
+ 
+     ## get test file
+@@ -641,9 +649,14 @@
+     if not options.train:
+         if 'svm' in options.model_path: options.svm = True
+         model = load_sbd_model(options.model_path, options.svm)
+-    if options.output: options.output = open(options.output, 'w')
++    #if options.output: options.output = open(options.output, 'w')
++    if options.output: options.output = codecs.open(options.output, 'w', 'utf-8')
++    if options.bounds: options.bounds = open(options.bounds, 'w')
+ 
+     test = get_data(options.test, tokenize=True)
+     test.featurize(model, verbose=True)
+     model.classify(test, verbose=True)
+-    test.segment(use_preds=True, tokenize=options.tokenize, output=options.output)
++    test.segment(use_preds=True, tokenize=options.tokenize, output=options.output, bounds=options.bounds)
++
++    if options.output: options.output.close()
++    if options.bounds: options.bounds.close()
