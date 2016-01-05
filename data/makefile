@@ -3,12 +3,14 @@ CODE=${DATA}/../code
 PREPROCESSING=${CODE}/preprocessing
 I2B2=${DATA}/i2b2
 GENIA=${DATA}/genia
+BNC=${DATA}/bnc
 
-.PHONY: help i2b2 genia clean
+.PHONY: help i2b2 genia bnc clean
 
 help:
 	@echo "i2b2    load i2b2 data into correct location"
 	@echo "genia   load GENIA data into correct location and extract plaintext"
+	@echo "bnc     load BNC data into correct location and extract plaintext"
 	@echo "clean   remove all data"
 
 clean:
@@ -20,6 +22,10 @@ clean:
 	@rm -rf ${GENIA}/GENIA_treebank_v1
 	@rm -f ${GENIA}/plaintext/*
 	@rm -f ${GENIA}/bounds/*
+	@echo "Removing BNC data..."
+	@rm -rf ${BNC}/2554
+	@rm -f ${BNC}/plaintext/*
+	@rm -f ${BNC}/bounds/*
 
 i2b2:
 	@cd ${I2B2} && \
@@ -67,4 +73,21 @@ genia:
 	else \
 		echo "Missing required file:" && \
 		echo "\t${GENIA}/$${TREEBANK}.tar.gz"; \
+	fi
+
+bnc:
+	@cd ${BNC} && \
+	XML=2554 && \
+	XMLPATH=$${XML}/download/Texts && \
+	if [ -e $${XML}.zip ]; then \
+		echo "Unpacking BNC data..." && \
+		if [ ! -d $${XML} ]; then \
+			unzip -q $${XML}.zip; \
+		fi && \
+		cd ${PREPROCESSING}/bnc && \
+		bash getfilelist.sh ${BNC}/$${XMLPATH} filelist2.txt && \
+		bash bncplaintext.sh ${BNC}/$${XMLPATH} filelist.txt ${BNC}/plaintext ${BNC}/bounds; \
+	else \
+		echo "Missing required files:" && \
+		echo "\t${BNC}/$${XML}.zip"; \
 	fi

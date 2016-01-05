@@ -3,6 +3,18 @@ Virtual environment for replicating experiments from Griffis et al., "A Quantita
 
 ## Data
 
+### [BNC](http://www.natcorp.ox.ac.uk/)
+
+1. Sign up for dataset access via the [Oxford Text Archive](http://ota.ox.ac.uk/scripts/download.php?otaid=2554)
+2. You will receive an email with a download link.
+3. Click the link to download the `2554.zip` file, and save it to `data/bnc`.
+4. Execute the following commands to unpack the data:
+
+        cd data/
+        make bnc
+
+   > Note that the plaintext extraction process for BNC takes several hours.
+
 ### [i2b2 2010 Clinical Dataset](https://www.i2b2.org/NLP/Relations/)
 
 1. Sign up for i2b2 data access [here](https://www.i2b2.org/NLP/DataSets/Register.php) (requires submitting a signed Data Use Agreement)

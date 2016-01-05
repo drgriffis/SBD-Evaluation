@@ -10,6 +10,8 @@ mkdir -p $DATA/i2b2/plaintext
 mkdir -p $DATA/i2b2/bounds
 mkdir -p $DATA/genia/plaintext
 mkdir -p $DATA/genia/bounds
+mkdir -p $DATA/bnc/plaintext
+mkdir -p $DATA/bnc/bounds
 
 ## Install necessary *nix packages
 apt-get update
