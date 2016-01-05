@@ -43,3 +43,20 @@ Virtual environment for replicating experiments from Griffis et al., "A Quantita
 
         cd data/
         make genia
+
+## Toolkits
+
+### [cTAKES](http://ctakes.apache.org/)
+
+Version 3.2.2 of Apache cTAKES automatically installs in `install/ctakes`.  The sentence chunking experiments use three components:
+
+1. `FilesInDirectoryCollectionReader` - Handles iterating over files in a directory.
+2. `ChunkerAggregate` - Part of the core pipeline; handles chunking text (sentence segmentation, phrase segmentation, POS tagging, etc.)
+3. `FileWriterCasConsumer` - Handles writing CAS results to XML files
+
+Configuration files for using cTAKES on each corpus are located in `code/ctakes`.  To process each corpus, execute the following commands:
+
+        cd code/ctakes
+        make [i2b2|ctakes|genia|swb]
+
+This will run cTAKES and extract detected sentence boundaries from the output: bounds are written to `data/[CORPUS]/ctakes/bounds`.
