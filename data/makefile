@@ -4,13 +4,15 @@ PREPROCESSING=${CODE}/preprocessing
 I2B2=${DATA}/i2b2
 GENIA=${DATA}/genia
 BNC=${DATA}/bnc
+SWB=${DATA}/swb
 
-.PHONY: help i2b2 genia bnc clean
+.PHONY: help i2b2 genia bnc swb clean
 
 help:
 	@echo "i2b2    load i2b2 data into correct location"
 	@echo "genia   load GENIA data into correct location and extract plaintext"
 	@echo "bnc     load BNC data into correct location and extract plaintext"
+	@echo "swb     load Switchboard data into correct location and extract plaintext"
 	@echo "clean   remove all data"
 
 clean:
@@ -26,6 +28,10 @@ clean:
 	@rm -rf ${BNC}/2554
 	@rm -f ${BNC}/plaintext/*
 	@rm -f ${BNC}/bounds/*
+	@echo "Removing Switchboard data..."
+	@rm -rf ${SWB}/swbparsed
+	@rm -f ${SWB}/plaintext/*
+	@rm -f ${SWB}/bounds/*
 
 i2b2:
 	@cd ${I2B2} && \
@@ -86,8 +92,36 @@ bnc:
 		fi && \
 		cd ${PREPROCESSING}/bnc && \
 		bash getfilelist.sh ${BNC}/$${XMLPATH} filelist2.txt && \
-		bash bncplaintext.sh ${BNC}/$${XMLPATH} filelist.txt ${BNC}/plaintext ${BNC}/bounds; \
+		bash bncplaintext.sh ${BNC}/$${XMLPATH} filelist.txt ${BNC}/plaintext ${BNC}/bounds && \
+		echo "\nBNC data unpacked to:" && \
+		echo "\tXML files: ${BNC}/$${XMLPATH}" && \
+		echo "\tPlaintext files: ${BNC}/plaintext" && \
+		echo "\tSentence boundaries: ${BNC}/bounds"; \
 	else \
 		echo "Missing required files:" && \
 		echo "\t${BNC}/$${XML}.zip"; \
+	fi
+
+swb:
+	@cd ${SWB} && \
+	PARSED=swbparsed && \
+	if [ -e $${PARSED}.tar.gz ]; then \
+		echo "Unpacking Switchboard data..." && \
+		if [ ! -d $${PARSED} ]; then \
+			mkdir $${PARSED} && \
+			cp $${PARSED}.tar.gz $${PARSED}/ && \
+			cd $${PARSED} && \
+			tar -xzf $${PARSED}.tar.gz && \
+			rm $${PARSED}.tar.gz && \
+			cd ..; \
+		fi && \
+		cd ${PREPROCESSING}/swb && \
+		bash swbplaintext.sh ${SWB}/$${PARSED} ${SWB}/plaintext ${SWB}/bounds && \
+		echo "\nSwitchboard data unpacked to:" && \
+		echo "\tPRD files: ${SWB}/$${PARSED}" && \
+		echo "\tPlaintext files: ${SWB}/plaintext" && \
+		echo "\tSentence boundaries: ${SWB}/bounds"; \
+	else \
+		echo "Missing required files:" && \
+		echo "\t${SWB}/$${PARSED}.zip"; \
 	fi

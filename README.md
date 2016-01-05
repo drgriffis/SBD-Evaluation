@@ -15,6 +15,17 @@ Virtual environment for replicating experiments from Griffis et al., "A Quantita
 
    > Note that the plaintext extraction process for BNC takes several hours.
 
+### [Switchboard](https://catalog.ldc.upenn.edu/LDC97S62)
+
+1. Sign up for an account with the Linguistic Data Consortium [here](https://catalog.ldc.upenn.edu/signup)
+  > Note that this requires being part an institution with LDC access.
+2. ??? **PENDING**
+3. Copy the .tar.gz file to the `data/swb` directory
+4. Execute the following commands to unpack the data:
+
+        cd data/
+        make swb
+
 ### [i2b2 2010 Clinical Dataset](https://www.i2b2.org/NLP/Relations/)
 
 1. Sign up for i2b2 data access [here](https://www.i2b2.org/NLP/DataSets/Register.php) (requires submitting a signed Data Use Agreement)

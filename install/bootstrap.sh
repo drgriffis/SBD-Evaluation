@@ -12,6 +12,8 @@ mkdir -p $DATA/genia/plaintext
 mkdir -p $DATA/genia/bounds
 mkdir -p $DATA/bnc/plaintext
 mkdir -p $DATA/bnc/bounds
+mkdir -p $DATA/swb/plaintext
+mkdir -p $DATA/swb/bounds
 
 ## Install necessary *nix packages
 apt-get update
@@ -19,6 +21,11 @@ apt-get purge -y openjdk-6-jre-headless openjdk-6-jre-lib
 apt-get install -y unzip
 apt-get install -y openjdk-7-jdk
 apt-get install -y make
+
+## Install NLTK (for Switchboard parsing)
+wget https://bootstrap.pypa.io/ez_setup.py -O - | python
+easy_install pip
+pip install -U nltk
 
 ## Install ctakes
 CTAKESNAME="apache-ctakes-3.2.2"
