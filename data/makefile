@@ -1,5 +1,6 @@
 DATA=$(shell pwd)
-PREPROCESSING=${DATA}/../code/preprocessing
+CODE=${DATA}/../code
+PREPROCESSING=${CODE}/preprocessing
 I2B2=${DATA}/i2b2
 GENIA=${DATA}/genia
 
@@ -14,6 +15,7 @@ clean:
 	@echo "Removing i2b2 data..."
 	@rm -rf ${I2B2}/tmp
 	@rm -f ${I2B2}/plaintext/*
+	@rm -f ${I2B2}/bounds/*
 	@echo "Removing GENIA data..."
 	@rm -rf ${GENIA}/GENIA_treebank_v1
 	@rm -f ${GENIA}/plaintext/*
@@ -36,7 +38,12 @@ i2b2:
 		cp $${TEST}/* ../plaintext/ && \
 		cd ../ && \
 		rm -rf tmp && \
-		echo "i2b2 data unpacked to ${I2B2}/plaintext"; \
+		echo "Calculating i2b2 sentence bounds..." && \
+		javac -d ${PREPROCESSING}/i2b2/bin -cp "${CODE}/jars/commons-io-2.4.jar:${CODE}/jars/opencsv-2.3.jar" ${PREPROCESSING}/i2b2/*.java && \
+		java -cp "${PREPROCESSING}/i2b2/bin:${CODE}/jars/commons-io-2.4.jar:${CODE}/jars/opencsv-2.3.jar" i2b2.ReferenceGenerator ${I2B2}/plaintext ${I2B2}/bounds && \
+		echo "i2b2 data unpacked to:" && \
+		echo "\tPlaintext files: ${I2B2}/plaintext" && \
+		echo "\tSentence boundaries: ${I2B2}/bounds"; \
 	else \
 		echo "Missing required files:" && \
 		if [ ! -e $${TRAINING}.tar.gz ]; then echo "\t${I2B2}/$${TRAINING}.tar.gz"; fi && \

@@ -7,12 +7,15 @@ DATA=/vagrant/data
 ## Set up directories as necessary
 mkdir -p $INSTALL/ctakes
 mkdir -p $DATA/i2b2/plaintext
-mkdir -p $DATA/genia
+mkdir -p $DATA/i2b2/bounds
+mkdir -p $DATA/genia/plaintext
+mkdir -p $DATA/genia/bounds
 
 ## Install necessary *nix packages
 apt-get update
+apt-get purge -y openjdk-6-jre-headless openjdk-6-jre-lib
 apt-get install -y unzip
-apt-get install -y openjdk-7-jre-headless
+apt-get install -y openjdk-7-jdk
 apt-get install -y make
 
 ## Install ctakes
