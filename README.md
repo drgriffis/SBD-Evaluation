@@ -1,5 +1,5 @@
-# Clinical-SBD
-Virtual environment for replicating experiments from Griffis et al., "A Quantitative and Qualitative Evaluation of Sentence Boundary Detection for the Clinical Domain" (2016)
+# SBD-Evaluation
+Virtual environment for replicating experiments from the paper "A Quantitative and Qualitative Evaluation of Sentence Boundary Detection for the Clinical Domain," appearing at AMIA CRI 2016.
 
 ## Data
 
