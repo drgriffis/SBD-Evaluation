@@ -1,5 +1,5 @@
 # SBD-Evaluation
-Virtual environment for replicating experiments from the paper "[A Quantitative and Qualitative Evaluation of Sentence Boundary Detection for the Clinical Domain](http://www.denisgriffis.com//papers/2016-AMIA-CRI.pdf)," appearing at AMIA CRI 2016.  [[Conference Slides](http://www.denisgriffis.com//papers/2016-AMIA-CRI.pdf)]
+Virtual environment for replicating experiments from the paper "[A Quantitative and Qualitative Evaluation of Sentence Boundary Detection for the Clinical Domain](http://web.cse.ohio-state.edu/~griffisd/papers/2016-AMIA-CRI.pdf)," appearing at AMIA CRI 2016.  [[Conference Slides](http://web.cse.ohio-state.edu/~griffisd/presentations/2016-AMIA-CRI.pdf)]
 
 ## Data
 
