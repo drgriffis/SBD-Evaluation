@@ -104,24 +104,31 @@ bnc:
 
 swb:
 	@cd ${SWB} && \
-	PARSED=swbparsed && \
-	if [ -e $${PARSED}.tar.gz ]; then \
+	TARBALL=LDC99T42.tgz && \
+	if [ -e $${TARBALL} ]; then \
 		echo "Unpacking Switchboard data..." && \
-		if [ ! -d $${PARSED} ]; then \
-			mkdir $${PARSED} && \
-			cp $${PARSED}.tar.gz $${PARSED}/ && \
-			cd $${PARSED} && \
-			tar -xzf $${PARSED}.tar.gz && \
-			rm $${PARSED}.tar.gz && \
-			cd ..; \
+		if [ ! -d parsed ]; then \
+			mkdir parsed && \
+			tar -xzf $${TARBALL} && \
+			for i in 2 3 4; do \
+				mv treebank_3/parsed/prd/swbd/$${i}/*.prd parsed/; \
+			done; \
+		fi && \
+		if [ ! -d plaintext ]; then \
+			mkdir plaintext; \
+		fi && \
+		if [ ! -d bounds ]; then \
+			mkdir bounds; \
 		fi && \
 		cd ${PREPROCESSING}/swb && \
-		bash swbplaintext.sh ${SWB}/$${PARSED} ${SWB}/plaintext ${SWB}/bounds && \
+		bash swbplaintext.sh ${SWB}/parsed ${SWB}/plaintext ${SWB}/bounds && \
+		cd ${SWB} && \
+		rm -rf treebank_3 && \
 		echo "\nSwitchboard data unpacked to:" && \
-		echo "\tPRD files: ${SWB}/$${PARSED}" && \
+		echo "\tPRD files: ${SWB}/parsed" && \
 		echo "\tPlaintext files: ${SWB}/plaintext" && \
 		echo "\tSentence boundaries: ${SWB}/bounds"; \
 	else \
 		echo "Missing required files:" && \
-		echo "\t${SWB}/$${PARSED}.zip"; \
+		echo "\t${SWB}/$${TARBALL}"; \
 	fi

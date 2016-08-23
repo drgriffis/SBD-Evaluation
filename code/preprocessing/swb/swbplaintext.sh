@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+PYTHON=python
+
 function usage {
 cat << EOF
 Converts Switchboard Penn Treebank-format PRD files to plaintext and extracts gold standard sentence boundaries.
@@ -42,7 +44,7 @@ do
     fn=`basename $f`
     plnfname=${fn}.txt
     if [ ! -e $plnDir/$plnfname ]; then
-        python plaintext.py $prdDir/$f $plnDir/$plnfname $bndsDir/${plnfname}.bounds
+        ${PYTHON} plaintext.py $prdDir/$f $plnDir/$plnfname $bndsDir/${plnfname}.bounds
         result=$?
         if [ $result -eq 0 ]; then
             plncounter=$((plncounter + 1))

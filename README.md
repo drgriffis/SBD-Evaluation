@@ -1,6 +1,10 @@
 # SBD-Evaluation
 Virtual environment for replicating experiments from the paper "[A Quantitative and Qualitative Evaluation of Sentence Boundary Detection for the Clinical Domain](http://web.cse.ohio-state.edu/~griffisd/papers/2016-AMIA-CRI.pdf)," appearing at AMIA CRI 2016.  [[Conference Slides](http://web.cse.ohio-state.edu/~griffisd/presentations/2016-AMIA-CRI.pdf)]
 
+## Dependencies
+
+- NLTK
+
 ## Data
 
 ### [BNC](http://www.natcorp.ox.ac.uk/)
@@ -15,12 +19,12 @@ Virtual environment for replicating experiments from the paper "[A Quantitative 
 
    > Note that the plaintext extraction process for BNC takes several hours.
 
-### [Switchboard](https://catalog.ldc.upenn.edu/LDC97S62)
+### [Switchboard (PTB 3 release)](https://catalog.ldc.upenn.edu/LDC99T42)
 
 1. Sign up for an account with the Linguistic Data Consortium [here](https://catalog.ldc.upenn.edu/signup)
   > Note that this requires being part an institution with LDC access.
-2. ??? **PENDING**
-3. Copy the .tar.gz file to the `data/swb` directory
+2. If necessary, request access to [Treebank 3](https://catalog.ldc.upenn.edu/LDC99T42), then download it.
+3. Copy the `LDC99T42.tgz` file to the `data/swb` directory
 4. Execute the following commands to unpack the data:
 
         cd data/
