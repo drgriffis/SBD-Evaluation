@@ -1,0 +1,10 @@
+# General
+*.swp
+.vagrant
+
+# cTAKES files
+install/ctakes/LICENSE
+install/ctakes/NOTICE
+install/ctakes/README
+install/ctakes/apache-ctakes-3.2.2
+install/ctakes/resources
