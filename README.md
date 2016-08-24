@@ -72,3 +72,9 @@ Version 3.5.2 of the Stanford CoreNLP suite automatically installs in `install/s
 ### [Splitta](https://code.google.com/archive/p/splitta/)
 
 Version 1.03 of the Splitta sentence segmenter automatically installs in `install/splitta`.
+
+### [LingPipe](http://alias-i.com/lingpipe)
+
+Version 4.1.0 of the LingPipe Core software is present in `install/lingpipe` by default.
+
+If the `.jar` file is missing, please go to [alias-i.com](http://alias-i.com/lingpipe/web/download.html) to download it (the AGPL version).

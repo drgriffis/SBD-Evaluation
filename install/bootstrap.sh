@@ -91,6 +91,10 @@ if [ ! -d $SFRDNAME ]; then
     unzip $SFRDPKG
 fi
 
+## ---
+## No installation for Lingpipe, since it can't be downloaded via wget
+## ---
+
 ## Download GENIA
 GENIANAME="GENIA_treebank_v1"
 GENIAURL="http://www.nactem.ac.uk/GENIA/current/GENIA-corpus/Treebank/$GENIANAME.tar.gz"
