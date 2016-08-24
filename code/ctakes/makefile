@@ -21,7 +21,7 @@ bnc:
 	@bash extractbounds.sh ${BNC}/ctakes/output ${BNC}/ctakes/bounds
 
 i2b2:
-	#@${CTAKES} config-i2b2.xml
+	@${CTAKES} config-i2b2.xml
 	@bash extractbounds.sh ${I2B2}/ctakes/output ${I2B2}/ctakes/bounds
 
 genia:
