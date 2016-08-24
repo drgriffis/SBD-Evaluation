@@ -64,3 +64,11 @@ Configuration files for using cTAKES on each corpus are located in `code/ctakes`
         make [i2b2|ctakes|genia|swb]
 
 This will run cTAKES and extract detected sentence boundaries from the output: bounds are written to `data/[CORPUS]/ctakes/bounds`.
+
+### [Stanford CoreNLP](http://stanfordnlp.github.io/CoreNLP)
+
+Version 3.5.2 of the Stanford CoreNLP suite automatically installs in `install/stanford-corenlp`.
+
+### [Splitta](https://code.google.com/archive/p/splitta/)
+
+Version 1.03 of the Splitta sentence segmenter automatically installs in `install/splitta`.

@@ -8,3 +8,12 @@ install/ctakes/NOTICE
 install/ctakes/README
 install/ctakes/apache-ctakes-3.2.2
 install/ctakes/resources
+
+# Splitta files
+install/splitta/svm_light/LICENSE.txt
+install/splitta/svm_light/svm_classify
+install/splitta/svm_light/svm_learn
+install/splitta/splitta.1.03
+
+# Stanford CoreNLP files
+install/stanford-corenlp/stanford-corenlp-full-2015-04-20

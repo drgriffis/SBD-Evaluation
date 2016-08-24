@@ -79,6 +79,18 @@ cd ../
 # apply patch with code changes for SBD
 patch $SPLITTANAME/sbd.py < ${SPLITTANAME}.patch
 
+## Install Stanford-CoreNLP
+SFRDNAME=stanford-corenlp-full-2015-04-20
+SFRDPKG=$SFRDNAME.zip
+SFRDURL="http://nlp.stanford.edu/software/$SFRDPKG"
+cd $INSTALL/stanford-corenlp
+if [ ! -e $SFRDPKG ]; then
+    wget $SFRDURL
+fi
+if [ ! -d $SFRDNAME ]; then
+    unzip $SFRDPKG
+fi
+
 ## Download GENIA
 GENIANAME="GENIA_treebank_v1"
 GENIAURL="http://www.nactem.ac.uk/GENIA/current/GENIA-corpus/Treebank/$GENIANAME.tar.gz"
