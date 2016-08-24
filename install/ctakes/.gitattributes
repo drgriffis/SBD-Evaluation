@@ -1,0 +1,2 @@
+apache-ctakes-3.2.2-bin.tar.gz filter=lfs diff=lfs merge=lfs -text
+ctakes-resources-3.2.1.1-bin.zip filter=lfs diff=lfs merge=lfs -text
