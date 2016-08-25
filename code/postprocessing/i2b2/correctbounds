@@ -96,21 +96,17 @@ if __name__ == '__main__':
     src,dest,tk = cli()
 
     if tk == 'specialist':
-        prefix = 0
         extension = -17
     elif tk == 'ctakes' or tk == 'splitta':
-        prefix = 0
         extension = -11
     elif tk == 'lingpipe' or tk == 'stanford':
-        prefix = 9
         extension = -4
     else: 
-        prefix = 0
         extension = 0
 
     for fname in os.listdir(src):
         fpath = src + '/' + fname
-        fbase = text + '/' + fname[prefix:extension] + '.txt'
+        fbase = text + '/' + fname[:extension] + '.txt'
         if os.path.isfile(fpath):
             if tk == 'splitta':
                 csv = fnl.correctwrapper(fpath, fbase)

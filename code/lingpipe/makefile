@@ -52,7 +52,8 @@ i2b2_mdl:
 	fi; \
 	${EXEC} LingPipeSegmenter \
 		${DATAROOT}/i2b2/plaintext/ \
-		${DATAROOT}/i2b2/lingpipe-output/${MODEL}/bounds/; \
+		${DATAROOT}/i2b2/lingpipe-output/${MODEL}/bounds/ \
+		${MODEL}; \
 	export PYTHONPATH=/vagrant/code:$${PYTHONPATH}; \
 	bash ${CLNQTS} ${DATAROOT}/i2b2/lingpipe-output/${MODEL}/bounds csv ${DATAROOT}/i2b2/lingpipe-output/${MODEL}/bounds/clean; \
 	../postprocessing/i2b2/correctbounds -s ${DATAROOT}/i2b2/lingpipe-output/${MODEL}/bounds/clean -d ${DATAROOT}/i2b2/lingpipe-output/${MODEL}/bounds/clean/fixed -t lingpipe
@@ -64,7 +65,8 @@ genia_mdl:
 	fi; \
 	${EXEC} LingPipeSegmenter \
 		${DATAROOT}/genia/plaintext/ \
-		${DATAROOT}/genia/lingpipe-output/${MODEL}/bounds/; \
+		${DATAROOT}/genia/lingpipe-output/${MODEL}/bounds/ \
+		${MODEL}; \
 	bash ${CLNQTS} ${DATAROOT}/genia/lingpipe-output/${MODEL}/bounds csv ${DATAROOT}/genia/lingpipe-output/${MODEL}/bounds/clean
 
 swb_mdl:
@@ -74,7 +76,8 @@ swb_mdl:
 	fi; \
 	${EXEC} LingPipeSegmenter \
 		${DATAROOT}/swb/plaintext/ \
-		${DATAROOT}/swb/lingpipe-output/${MODEL}/bounds/; \
+		${DATAROOT}/swb/lingpipe-output/${MODEL}/bounds/ \
+		${MODEL}; \
 	bash ${CLNQTS} ${DATAROOT}/swb/lingpipe-output/${MODEL}/bounds csv ${DATAROOT}/swb/lingpipe-output/${MODEL}/bounds/clean
 
 bnc_mdl:
@@ -84,5 +87,6 @@ bnc_mdl:
 	fi; \
 	${EXEC} LingPipeSegmenter \
 		${DATAROOT}/bnc/plaintext/ \
-		${DATAROOT}/bnc/lingpipe-output/${MODEL}/bounds/; \
+		${DATAROOT}/bnc/lingpipe-output/${MODEL}/bounds/ \
+		${MODEL}; \
 	bash ${CLNQTS} ${DATAROOT}/bnc/lingpipe-output/${MODEL}/bounds csv ${DATAROOT}/bnc/lingpipe-output/${MODEL}/bounds/clean

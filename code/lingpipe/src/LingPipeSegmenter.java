@@ -23,18 +23,25 @@ import au.com.bytecode.opencsv.CSVWriter;
 public class LingPipeSegmenter 
 {
 	static final TokenizerFactory TOKENIZER_FACTORY = IndoEuropeanTokenizerFactory.INSTANCE;
-	//static final SentenceModel SENTENCE_MODEL  = new MedlineSentenceModel();
-	static final SentenceModel SENTENCE_MODEL  = new IndoEuropeanSentenceModel();
-	static final SentenceChunker SENTENCE_CHUNKER = new SentenceChunker(TOKENIZER_FACTORY,SENTENCE_MODEL);
+	static SentenceModel SENTENCE_MODEL;
+	static SentenceChunker SENTENCE_CHUNKER;
 
 	public static void main(String[] args) 
 	{
-        String dataPath, outPath;
-        if (args.length < 2) {
-            System.out.println("Missing required arguments specifying input/output directories");
+        String dataPath, outPath, model;
+        if (args.length < 3) {
+            System.out.println("Missing required arguments specifying input/output directories and model");
         } else {
             dataPath = args[0];
             outPath = args[1];
+            model = args[2];
+
+            if (model.equals("me")) {
+                SENTENCE_MODEL = new MedlineSentenceModel();
+            } else if (model.equals("ie")) {
+                SENTENCE_MODEL = new IndoEuropeanSentenceModel();
+            }
+            SENTENCE_CHUNKER = new SentenceChunker(TOKENIZER_FACTORY, SENTENCE_MODEL);
 
             LingPipeSegmenter lpSegmenter = new LingPipeSegmenter();
             lpSegmenter.segmentAll(dataPath,outPath);
