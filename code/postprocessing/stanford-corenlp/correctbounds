@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+import sys, os
+
+def readCSV(content, sep=','):
+    lns = content.strip().split('\n')
+    lns = [[int(c) for c in row.split(sep)] for row in lns]
+    return lns
+
+def load(fname):
+    f = open(fname, 'r')
+    c = f.read()
+    f.close()
+    return c
+
+def writeCSV(csv, sep=','):
+    output = [[str(c) for c in row] for row in csv]
+    output = [sep.join(row) for row in output]
+    output = '\n'.join(output)
+    return output
+
+def dump(fname, content):
+    f = open(fname, 'w')
+    f.write(content)
+    f.close()
+
+def fixStanfordEnds(csv):
+    outCSV = []
+    for [start, end] in csv:
+        outCSV.append([start, end-1])
+    lastPair = outCSV[-1]
+    outCSV[-1] = [lastPair[0], lastPair[1]+1]
+    return outCSV
+
+if __name__ == '__main__':
+    src=sys.argv[1]
+    dest=sys.argv[2]
+    for f in os.listdir(src):
+        fpath=os.path.join(src, f)
+        if os.path.isfile(fpath):
+            csv = readCSV(load(fpath))
+            csv = fixStanfordEnds(csv)
+            dump(os.path.join(dest, f), writeCSV(csv))

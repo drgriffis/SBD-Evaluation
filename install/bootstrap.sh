@@ -24,6 +24,12 @@ apt-get install -y openjdk-7-jdk
 apt-get install -y make
 apt-get install -y patch
 
+## Install Java 8 (for Stanford CoreNLP)
+cd /opt
+wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u45-b14/jdk-8u45-linux-x64.tar.gz"
+tar -xzf jdk-8u45-linux-x64.tar.gz
+echo "export JAVA8_HOME=/opt/jdk1.8.0_45" >> $BASHRC
+
 ## Install NLTK (for Switchboard parsing)
 wget https://bootstrap.pypa.io/ez_setup.py -O - | python
 easy_install pip
@@ -89,6 +95,16 @@ if [ ! -e $SFRDPKG ]; then
 fi
 if [ ! -d $SFRDNAME ]; then
     unzip $SFRDPKG
+fi
+# Stanford parser
+SFRDPNAME=stanford-parser-full-2015-04-20
+SFRDPPKG=$SFRDPNAME.zip
+SFRDPURL="http://nlp.stanford.edu/software/$SFRDPPKG"
+if [ ! -e $SFRDPPKG ]; then
+    wget $SFRDPURL
+fi
+if [ ! -d $SFRDPNAME ]; then
+    unzip $SFRDPPKG
 fi
 
 ## ---

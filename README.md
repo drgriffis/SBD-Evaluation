@@ -1,10 +1,6 @@
 # SBD-Evaluation
 Virtual environment for replicating experiments from the paper "[A Quantitative and Qualitative Evaluation of Sentence Boundary Detection for the Clinical Domain](http://web.cse.ohio-state.edu/~griffisd/papers/2016-AMIA-CRI.pdf)," appearing at AMIA CRI 2016.  [[Conference Slides](http://web.cse.ohio-state.edu/~griffisd/presentations/2016-AMIA-CRI.pdf)]
 
-## Dependencies
-
-- NLTK
-
 ## Data
 
 ### [BNC](http://www.natcorp.ox.ac.uk/)
@@ -61,20 +57,42 @@ Version 3.2.2 of Apache cTAKES automatically installs in `install/ctakes`.  The 
 Configuration files for using cTAKES on each corpus are located in `code/ctakes`.  To process each corpus, execute the following commands:
 
         cd code/ctakes
-        make [i2b2|ctakes|genia|swb]
+        make [i2b2|bnc|genia|swb]
 
-This will run cTAKES and extract detected sentence boundaries from the output: bounds are written to `data/[CORPUS]/ctakes/bounds`.
+This will run cTAKES and extract detected sentence boundaries from the output: bounds are written to `data/[CORPUS]/ctakes-output/bounds`.
 
 ### [Stanford CoreNLP](http://stanfordnlp.github.io/CoreNLP)
 
-Version 3.5.2 of the Stanford CoreNLP suite automatically installs in `install/stanford-corenlp`.
+Version 3.5.2 of the Stanford CoreNLP suite and version 3.5.2 of the Stanford Parser automatically install in `install/stanford-corenlp`.
+
+Code for executing Stanford CoreNLP on each corpus is located in `code/stanford-corenlp`.  To process each corpus, execute the following commands:
+  
+        cd code/stanford-corenlp
+        make [i2b2|bnc|genia|swb]
+
+This will run Stanford CoreNLP and extract detected sentence boundaries from the output, with some cleaning.  Bounds are written to `data/[CORPUS]/stanford-output/bounds/clean/fixed`.
 
 ### [Splitta](https://code.google.com/archive/p/splitta/)
 
 Version 1.03 of the Splitta sentence segmenter automatically installs in `install/splitta`.
+
+Scripts for executing Splitta on each corpus are located in `code/splitta`.  To process each corpus, execute the following commands:
+  
+        cd code/splitta
+        make [i2b2|bnc|genia|swb]
+
+This will run Splitta and extract detected sentence boundaries from the output.  Bounds are written to `data/[CORPUS]/splitta-output/[nb|svm]/bounds`.
+(BNC bounds require further adjustment and are placed in `bounds/fixed`.)
 
 ### [LingPipe](http://alias-i.com/lingpipe)
 
 Version 4.1.0 of the LingPipe Core software is present in `install/lingpipe` by default.
 
 If the `.jar` file is missing, please go to [alias-i.com](http://alias-i.com/lingpipe/web/download.html) to download it (the AGPL version).
+
+Code for executing LingPipe on each corpus is located in `code/lingpipe`.  To process each corpus, execute the following commands:
+  
+        cd code/lingpipe
+        make [i2b2|bnc|genia|swb]
+
+This will run LingPipe and extract detected sentence boundaries from the output, with some cleaning.  Bounds are written to `data/[CORPUS]/lingpipe-output/[ie|me]/bounds/clean`. (i2b2 bounds require further adjustment and are placed in `bounds/clean/fixed`.)

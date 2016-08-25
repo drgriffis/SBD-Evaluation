@@ -19,6 +19,8 @@ install/splitta/splitta.1.03
 
 # Stanford CoreNLP files
 install/stanford-corenlp/stanford-corenlp-full-2015-04-20
+install/stanford-corenlp/stanford-parser-full-2015-04-20
+code/stanford-corenlp/bin
 
 # LingPipe files
 code/lingpipe/bin
