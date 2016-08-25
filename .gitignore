@@ -3,6 +3,8 @@
 *.pyc
 .vagrant
 .bundle
+code/evaluation/bin
+code/preprocessing/i2b2/bin
 
 # cTAKES files
 install/ctakes/LICENSE
