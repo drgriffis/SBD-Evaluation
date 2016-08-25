@@ -96,3 +96,12 @@ Code for executing LingPipe on each corpus is located in `code/lingpipe`.  To pr
         make [i2b2|bnc|genia|swb]
 
 This will run LingPipe and extract detected sentence boundaries from the output, with some cleaning.  Bounds are written to `data/[CORPUS]/lingpipe-output/[ie|me]/bounds/clean`. (i2b2 bounds require further adjustment and are placed in `bounds/clean/fixed`.)
+
+
+## Corpus analysis
+
+Several analysis utilities are included for describing the corpora.  The scripts are found in `code/analysis`:
+
+  - `calculatelen`: calculates the average sentence length (in tokens) for each corpus
+  - `calculateends`: determines the set of sentence-terminal characters for each corpus, with their frequency
+  - `markbounds`: identifies the sentence-terminal characters for each sentence in each corpus, processing both gold standard sentence bounds and predictions from each toolkit

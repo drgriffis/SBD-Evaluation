@@ -51,11 +51,18 @@ i2b2:
 		cd ../ && \
 		rm -rf tmp && \
 		echo "Calculating i2b2 sentence bounds..." && \
+		if [ ! -d ${PREPROCESSING}/i2b2/bin ]; then \
+			mkdir -p ${PREPROCESSING}/i2b2/bin; \
+		fi && \
+		if [ ! -d ${I2B2}/bounds/clean ]; then \
+			mkdir -p ${I2B2}/bounds/clean; \
+		fi && \
 		javac -d ${PREPROCESSING}/i2b2/bin -cp "${CODE}/jars/commons-io-2.4.jar:${CODE}/jars/opencsv-2.3.jar" ${PREPROCESSING}/i2b2/*.java && \
 		java -cp "${PREPROCESSING}/i2b2/bin:${CODE}/jars/commons-io-2.4.jar:${CODE}/jars/opencsv-2.3.jar" i2b2.ReferenceGenerator ${I2B2}/plaintext/ ${I2B2}/bounds/ && \
+		bash ${CODE}/postprocessing/cleanquotes.sh ${I2B2}/bounds csv ${I2B2}/bounds/clean && \
 		echo "i2b2 data unpacked to:" && \
 		echo "\tPlaintext files: ${I2B2}/plaintext" && \
-		echo "\tSentence boundaries: ${I2B2}/bounds"; \
+		echo "\tSentence boundaries: ${I2B2}/bounds/clean"; \
 	else \
 		echo "Missing required files:" && \
 		if [ ! -e $${TRAINING}.tar.gz ]; then echo "\t${I2B2}/$${TRAINING}.tar.gz"; fi && \
@@ -91,7 +98,7 @@ bnc:
 			unzip -q $${XML}.zip; \
 		fi && \
 		cd ${PREPROCESSING}/bnc && \
-		bash getfilelist.sh ${BNC}/$${XMLPATH} filelist2.txt && \
+		bash getfilelist.sh ${BNC}/$${XMLPATH} filelist.txt && \
 		bash bncplaintext.sh ${BNC}/$${XMLPATH} filelist.txt ${BNC}/plaintext ${BNC}/bounds && \
 		echo "\nBNC data unpacked to:" && \
 		echo "\tXML files: ${BNC}/$${XMLPATH}" && \

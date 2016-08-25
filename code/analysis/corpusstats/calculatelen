@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# Script to calculate average sentence length (in tokens) for each corpus
+#
+
+DATAROOT=/vagrant/data
+
+avglen=${DATAROOT}/analysis/avglen.csv
+rm -f $avglen
+
+echo -n Analyzing BNC...
+corpus=${DATAROOT}/bnc/plaintext
+bounds=${DATAROOT}/bnc/bounds
+txtend=".xml.txt"
+bndend=".xml.txt.bounds.permissive"
+echo -ne "BNC\t" >> $avglen
+python calculatestats.py -a len -t $corpus -b $bounds -e $txtend -E $bndend >> $avglen
+
+echo -n Analyzing SWB...
+corpus=${DATAROOT}/swb/plaintext
+bounds=${DATAROOT}/swb/bounds
+txtend=".prd.txt"
+bndend=".prd.txt.bounds"
+echo -ne "SWB\t" >> $avglen
+python calculatestats.py -a len -t $corpus -b $bounds -e $txtend -E $bndend >> $avglen
+
+echo -n Analyzing GENIA...
+corpus=${DATAROOT}/genia/plaintext
+bounds=${DATAROOT}/genia/bounds
+txtend=".xml.txt"
+bndend=".xml.bounds"
+echo -ne "GENIA\t" >> $avglen
+python calculatestats.py -a len -t $corpus -b $bounds -e $txtend -E $bndend >> $avglen
+
+echo -n Analyzing i2b2...
+corpus=${DATAROOT}/i2b2/plaintext
+bounds=${DATAROOT}/i2b2/bounds/clean
+txtend=".txt"
+bndend=".csv"
+echo -ne "i2b2\t" >> $avglen
+python calculatestats.py -a len -t $corpus -b $bounds -e $txtend -E $bndend >> $avglen
+
+echo; echo Done! Output in $avglen

@@ -15,6 +15,7 @@ mkdir -p $DATA/bnc/plaintext
 mkdir -p $DATA/bnc/bounds
 mkdir -p $DATA/swb/plaintext
 mkdir -p $DATA/swb/bounds
+mkdir -p $DATA/analysis/ending-chars
 
 ## Install necessary *nix packages
 apt-get update

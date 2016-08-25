@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# Script to calculate frequency of sentence terminal characters in a corpus
+#
+
+DATAROOT=/vagrant/data
+ANLSROOT=${DATAROOT}/analysis/ending-chars
+
+echo -n Analyzing BNC...
+corpus=${DATAROOT}/bnc/plaintext
+bounds=${DATAROOT}/bnc/bounds
+txtend=".xml.txt"
+bndend=".xml.txt.bounds.permissive"
+log=$ANLSROOT/bnc.csv
+python calculatestats.py -a ends -t $corpus -b $bounds -e $txtend -E $bndend > $log
+echo results in $log.
+
+echo -n Analyzing SWB...
+corpus=${DATAROOT}/swb/plaintext
+bounds=${DATAROOT}/swb/bounds
+txtend=".prd.txt"
+bndend=".prd.txt.bounds"
+log=$ANLSROOT/swb.csv
+python calculatestats.py -a ends -t $corpus -b $bounds -e $txtend -E $bndend > $log
+echo results in $log.
+
+echo -n Analyzing GENIA...
+corpus=${DATAROOT}/genia/plaintext
+bounds=${DATAROOT}/genia/bounds
+txtend=".xml.txt"
+bndend=".xml.bounds"
+log=$ANLSROOT/genia.csv
+python calculatestats.py -a ends -t $corpus -b $bounds -e $txtend -E $bndend > $log
+echo results in $log.
+
+echo -n Analyzing i2b2...
+corpus=${DATAROOT}/i2b2/plaintext
+bounds=${DATAROOT}/i2b2/bounds/clean
+txtend=".txt"
+bndend=".csv"
+log=$ANLSROOT/i2b2.csv
+python calculatestats.py -a ends -t $corpus -b $bounds -e $txtend -E $bndend > $log
+echo results in $log.
+
+echo; echo Done!

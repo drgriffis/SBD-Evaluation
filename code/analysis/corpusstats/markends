@@ -1,0 +1,266 @@
+#!/bin/bash
+
+DATAROOT=/vagrant/data
+
+bnc=0
+swb=0
+genia=0
+i2b2=0
+
+usage() {
+cat << EOF
+Usage: `basename $0` [options]
+    
+    Options include:
+        -b Run BNC ends
+        -s Run SWB ends
+        -g Run GENIA ends
+        -i Run i2b2 ends
+EOF
+}
+
+while getopts "bsgi" OPTION; do
+    case $OPTION in
+        b)
+            bnc=1
+            ;;
+        s)
+            swb=1
+            ;;
+        g)
+            genia=1
+            ;;
+        i)
+            i2b2=1
+            ;;
+    esac
+done
+
+if [ $bnc -eq 0 ] && [ $swb -eq 0 ] && [ $genia -eq 0 ] && [ $i2b2 -eq 0 ]; then
+    usage
+    exit
+fi
+
+mrke=".marked"
+
+#bnc
+if [ $bnc -eq 1 ]; then
+    pln="${DATAROOT}/bnc/plaintext"
+    txte=".xml.txt"
+
+    # Gold standard - permissive
+    bnds="${DATAROOT}/bnc/bounds"
+    mrkd="${DATAROOT}/bnc/bounds/marked"
+    bndse=".xml.txt.bounds.permissive"
+    python markendings.py -u -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # Gold standard - strict
+    bnds="${DATAROOT}/bnc/bounds/"
+    mrkd="${DATAROOT}/bnc/bounds/marked"
+    bndse=".xml.txt.bounds.strict"
+    python markendings.py -u -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # cTAKES
+    bnds="${DATAROOT}/bnc/ctakes-output/bounds"
+    mrkd="${DATAROOT}/bnc/ctakes-output/bounds/marked"
+    bndse=".xml.txt.xml.bounds"
+    python markendings.py -u -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # SPECIALIST
+    bnds="${DATAROOT}/bnc/specialist-output/bounds/superfixed"
+    mrkd="${DATAROOT}/bnc/specialist-output/bounds/superfixed/marked"
+    bndse=".xml.txt.bounds.superfixed"
+    python markendings.py -u -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # SPLITTA (SVM)
+    bnds="${DATAROOT}/bnc/splitta-output/svm/bounds"
+    mrkd="${DATAROOT}/bnc/splitta-output/svm/bounds/marked"
+    bndse=".xml.txt.bounds.fixed"
+    python markendings.py -u -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # SPLITTA (NB)
+    bnds="${DATAROOT}/bnc/splitta-output/nb/bounds"
+    mrkd="${DATAROOT}/bnc/splitta-output/nb/bounds/marked"
+    bndse=".xml.txt.bounds.fixed"
+    python markendings.py -u -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # LingPipe (ME)
+    bnds="${DATAROOT}/bnc/lingpipe-output/me/bounds/clean"
+    mrkd="${DATAROOT}/bnc/lingpipe-output/me/bounds/clean/marked"
+    bndse=".xml.csv"
+    python markendings.py -u -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke -p lingpipe_
+
+    # LingPipe (IE)
+    bnds="${DATAROOT}/bnc/lingpipe-output/ie/bounds/clean"
+    mrkd="${DATAROOT}/bnc/lingpipe-output/ie/bounds/clean/marked"
+    bndse=".xml.csv"
+    python markendings.py -u -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke -p lingpipe_
+
+    # Stanford
+    bnds="${DATAROOT}/bnc/stanford-output/bounds/clean/fixed"
+    mrkd="${DATAROOT}/bnc/stanford-output/bounds/clean/fixed/marked"
+    bndse=".xml.csv"
+    python markendings.py -u -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke -p stanford_
+fi
+
+#swb
+if [ $swb -eq 1 ]; then
+    pln="${DATAROOT}/swb/plaintext"
+    txte=".prd.txt"
+
+    # Gold standard
+    bnds="${DATAROOT}/swb/bounds"
+    mrkd="${DATAROOT}/swb/bounds/marked"
+    bndse=".prd.txt.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # cTAKES
+    bnds="${DATAROOT}/swb/ctakes-output/bounds"
+    mrkd="${DATAROOT}/swb/ctakes-output/bounds/marked"
+    bndse=".prd.txt.xml.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # SPECIALIST
+    bnds="${DATAROOT}/swb/specialist-output/bounds"
+    mrkd="${DATAROOT}/swb/specialist-output/bounds/marked"
+    bndse=".prd.txt.sentences.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # SPLITTA (SVM)
+    bnds="${DATAROOT}/swb/splitta-output/svm/bounds"
+    mrkd="${DATAROOT}/swb/splitta-output/svm/bounds/marked"
+    bndse=".prd.txt.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # SPLITTA (NB)
+    bnds="${DATAROOT}/swb/splitta-output/nb/bounds"
+    mrkd="${DATAROOT}/swb/splitta-output/nb/bounds/marked"
+    bndse=".prd.txt.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # LingPipe (ME)
+    bnds="${DATAROOT}/swb/lingpipe-output/me/bounds/clean"
+    mrkd="${DATAROOT}/swb/lingpipe-output/me/bounds/clean/marked"
+    bndse=".prd.csv"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke -p lingpipe_
+
+    # LingPipe (IE)
+    bnds="${DATAROOT}/swb/lingpipe-output/ie/bounds/clean"
+    mrkd="${DATAROOT}/swb/lingpipe-output/ie/bounds/clean/marked"
+    bndse=".prd.csv"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke -p lingpipe_
+
+    # Stanford
+    bnds="${DATAROOT}/swb/stanford-output/bounds/clean/fixed"
+    mrkd="${DATAROOT}/swb/stanford-output/bounds/clean/fixed/marked"
+    bndse=".prd.csv"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke -p stanford_
+fi
+
+#genia
+if [ $genia -eq 1 ]; then
+    pln="${DATAROOT}/genia/plaintext"
+    txte=".xml.txt"
+
+    # Gold standard
+    bnds="${DATAROOT}/genia/bounds"
+    mrkd="${DATAROOT}/genia/bounds/marked"
+    bndse=".xml.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # cTAKES
+    bnds="${DATAROOT}/genia/ctakes-output/bounds"
+    mrkd="${DATAROOT}/genia/ctakes-output/bounds/marked"
+    bndse=".xml.txt.xml.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # SPECIALIST
+    bnds="${DATAROOT}/genia/specialist-output/bounds"
+    mrkd="${DATAROOT}/genia/specialist-output/bounds/marked"
+    bndse=".xml.txt.sentences.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # SPLITTA (SVM)
+    bnds="${DATAROOT}/genia/splitta-output/svm/bounds"
+    mrkd="${DATAROOT}/genia/splitta-output/svm/bounds/marked"
+    bndse=".xml.txt.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # SPLITTA (NB)
+    bnds="${DATAROOT}/genia/splitta-output/nb/bounds"
+    mrkd="${DATAROOT}/genia/splitta-output/nb/bounds/marked"
+    bndse=".xml.txt.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # LingPipe (ME)
+    bnds="${DATAROOT}/genia/lingpipe-output/me/bounds/clean"
+    mrkd="${DATAROOT}/genia/lingpipe-output/me/bounds/clean/marked"
+    bndse=".xml.csv"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke -p lingpipe_
+
+    # LingPipe (IE)
+    bnds="${DATAROOT}/genia/lingpipe-output/ie/bounds/clean"
+    mrkd="${DATAROOT}/genia/lingpipe-output/ie/bounds/clean/marked"
+    bndse=".xml.csv"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke -p lingpipe_
+
+    # Stanford
+    bnds="${DATAROOT}/genia/stanford-output/bounds/clean/fixed"
+    mrkd="${DATAROOT}/genia/stanford-output/bounds/clean/fixed/marked"
+    bndse=".xml.csv"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke -p stanford_
+fi
+
+#i2b2
+if [ $i2b2 -eq 1 ]; then
+    pln="${DATAROOT}/i2b2/plaintext"
+    txte=".txt"
+
+    # Gold standard
+    bnds="${DATAROOT}/i2b2/bounds/clean"
+    mrkd="${DATAROOT}/i2b2/bounds/clean/marked"
+    bndse=".csv"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # cTAKES
+    bnds="${DATAROOT}/i2b2/ctakes-output/bounds/fixed"
+    mrkd="${DATAROOT}/i2b2/ctakes-output/boundsmarked"
+    bndse=".txt.xml.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # SPECIALIST
+    bnds="${DATAROOT}/i2b2/specialist-output/bounds/fixed"
+    mrkd="${DATAROOT}/i2b2/specialist-output/boundsmarked"
+    bndse=".txt.sentences.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # SPLITTA (SVM)
+    bnds="${DATAROOT}/i2b2/splitta-output/svm/bounds/fixed"
+    mrkd="${DATAROOT}/i2b2/splitta-output/svm/boundsmarked"
+    bndse=".txt.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # SPLITTA (NB)
+    bnds="${DATAROOT}/i2b2/splitta-output/nb/bounds/fixed"
+    mrkd="${DATAROOT}/i2b2/splitta-output/nb/boundsmarked"
+    bndse=".txt.bounds"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke
+
+    # LingPipe (ME)
+    bnds="${DATAROOT}/i2b2/lingpipe-output/me/bounds/clean/fixed"
+    mrkd="${DATAROOT}/i2b2/lingpipe-output/me/bounds/clean/fixed/marked"
+    bndse=".csv"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke -p lingpipe_
+
+    # LingPipe (IE)
+    bnds="${DATAROOT}/i2b2/lingpipe-output/ie/bounds/clean/fixed"
+    mrkd="${DATAROOT}/i2b2/lingpipe-output/ie/bounds/clean/fixed/marked"
+    bndse=".csv"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke -p lingpipe_
+
+    # Stanford
+    bnds="${DATAROOT}/i2b2/stanford-output/bounds/clean/fixed"
+    mrkd="${DATAROOT}/i2b2/stanford-output/bounds/clean/fixed/marked"
+    bndse=".csv"
+    python markendings.py -t $pln -b $bnds -m $mrkd -e $txte -E $bndse -M $mrke -p stanford_
+fi
