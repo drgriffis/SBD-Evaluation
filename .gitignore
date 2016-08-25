@@ -1,6 +1,8 @@
 # General
 *.swp
+*.pyc
 .vagrant
+.bundle
 
 # cTAKES files
 install/ctakes/LICENSE
@@ -17,3 +19,6 @@ install/splitta/splitta.1.03
 
 # Stanford CoreNLP files
 install/stanford-corenlp/stanford-corenlp-full-2015-04-20
+
+# LingPipe files
+code/lingpipe/bin

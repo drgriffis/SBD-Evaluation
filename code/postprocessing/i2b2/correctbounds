@@ -1,0 +1,127 @@
+#!/usr/bin/env python
+#0006, 0130, 0342, 0431, 0469, 974381789
+
+import os
+import sys
+import optparse
+
+import postprocessing.fixnewlines as fnl
+
+def handleCTAKESSpecialCases(fname, csv):
+    if os.path.basename(fname)[:-4] in ['0006',
+                      '0130',
+                      '0342',
+                      '0431',
+                      '0469',
+                      '974381789']:
+        # every sentence ends with an extra space, so increment ends again
+        csv = incrementEnds(csv)
+    return csv
+
+def handleSplittaSpecialCases(fname, csv):
+    specialCases = {
+        '0017':[allOffBy, 1],
+    }
+    basename = os.path.basename(fname)[:-4]
+    if specialCases.has_key(basename):
+        [method, val] = specialCases[basename]
+        return method(csv, val)
+    else:
+        return csv
+
+def getCSV(fname):
+    f = open(fname, 'r')
+    csv = [[int(b) for b in bnd.strip().split(',')]
+            for bnd in f.readlines()]
+    f.close()
+    return csv
+
+def incrementEnds(csv):
+    outCSV = []
+    for [start, end] in csv:
+        outCSV.append([start, end+1])
+    return outCSV
+
+def allButFirst(csv, inc):
+    return allOfBy(csv, inc, notFirst=True)
+
+def allOffBy(csv, inc, notFirst=False):
+    outCSV, isFirst = [], True
+    for [start, end] in csv:
+        if notFirst and isFirst:
+            outCSV.append([start, end+inc])
+            isFirst=False
+        else:
+            outCSV.append([start+inc, end+inc])
+    return outCSV
+
+def writeCSV(csv, fname):
+    f = open(fname, 'w')
+    csvstr = '\n'.join([','.join([str(b) for b in bnd]) for bnd in csv])
+    f.write(csvstr)
+    f.close()
+
+def startsWithBOM(fname):
+    f = open(fname, 'r')
+    swBOM = (f.read(3) == '\xef\xbb\xbf')
+    f.close()
+    return swBOM
+
+def adjustForBOM(csv):
+    outCSV, firstBounds = [], True
+    for [start, end] in csv:
+        if firstBounds:
+            outCSV.append([start, end+2])
+            firstBounds = False
+        else:
+            outCSV.append([start+2, end+2])
+    return outCSV
+
+def cli():
+    parser = optparse.OptionParser(usage='Usage: %prog -s SRC -d DEST -t TK')
+    parser.add_option('-s', '--src', dest='srcd',
+        help='directory containing incorrect bounds')
+    parser.add_option('-d', '--dest', dest='destd',
+        help='where to put corrected bounds')
+    parser.add_option('-t', '--toolkit', dest='tk',
+        help='the toolkit being corrected')
+    (options, args) = parser.parse_args()
+    if not options.srcd or not options.destd or not options.tk:
+        parser.print_help()
+        exit()
+    return options.srcd, options.destd, options.tk
+
+if __name__ == '__main__':
+    text='/vagrant/data/i2b2/plaintext'
+    src,dest,tk = cli()
+
+    if tk == 'specialist':
+        prefix = 0
+        extension = -17
+    elif tk == 'ctakes' or tk == 'splitta':
+        prefix = 0
+        extension = -11
+    elif tk == 'lingpipe' or tk == 'stanford':
+        prefix = 9
+        extension = -4
+    else: 
+        prefix = 0
+        extension = 0
+
+    for fname in os.listdir(src):
+        fpath = src + '/' + fname
+        fbase = text + '/' + fname[prefix:extension] + '.txt'
+        if os.path.isfile(fpath):
+            if tk == 'splitta':
+                csv = fnl.correctwrapper(fpath, fbase)
+                csv = handleSplittaSpecialCases(fbase, csv)
+            else:
+                csv = getCSV(fpath)
+                # splitta fixing takes care of this already, so don't worry about it
+                if startsWithBOM(fbase):
+                    csv = adjustForBOM(csv)
+            if tk != 'stanford':# and tk != 'lingpipe':
+                csv = incrementEnds(csv)
+            if tk == 'ctakes':
+                csv = handleCTAKESSpecialCases(fbase, csv)
+            writeCSV(csv, dest + '/' + fname);
