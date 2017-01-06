@@ -95,3 +95,12 @@ i2b2_tk:
 		${TK_SUFFIX} \
 	| tr '\n' ':' \
 	| awk -F ':' '{ print "${TK}${MODEL}," $$2 "," $$4 "," $$6 }';
+
+i2b2-specialist:
+	make i2b2 TK=specialist SEARCH=.csv REPL=.txt.sentences.bounds
+genia-specialist:
+	make genia TK=specialist SEARCH=.xml.bounds REPL=.xml.txt.sentences.bounds
+bnc-specialist:
+	make bnc TK=specialist SEARCH=.xml.txt.bounds.permissive REPL=.xml.txt.bounds.superfixed LVL=permissive OPT=superfixed/
+swb-specialist:
+	make swb TK=specialist SEARCH=.prd.txt.bounds REPL=.prd.txt.sentences.bounds
